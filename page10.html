@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>To My Love 🐸💖</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom, #ffc0cb, #ccffcc);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        .card {
+            background: white;
+            border: 5px dashed pink;
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            max-width: 700px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .card p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .button {
+            margin-top: 20px;
+            background-color: #a3e4db;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .emoji {
+            font-size: 30px;
+        }
+
+        .side-gif {
+            position: fixed;
+            width: 100px;
+            z-index: 1;
+        }
+
+        .left-gif {
+            left: 10px;
+            bottom: 20px;
+        }
+
+        .right-gif {
+            right: 10px;
+            top: 20px;
+        }
+
+        .flower-gif {
+            left: 10px;
+            top: 20px;
+        }
+
+        .party-gif {
+            right: 10px;
+            bottom: 20px;
+        }
+
+        /* Sakura Rain Emoji */
+        .sakura {
+            position: fixed;
+            top: -50px;
+            font-size: 24px;
+            animation: fall linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sakura Rain Emoji 🌸 -->
+    <script>
+        const sakuraEmoji = "🌸";
+        for (let i = 0; i < 30; i++) {
+            let sakura = document.createElement("div");
+            sakura.classList.add("sakura");
+            sakura.textContent = sakuraEmoji;
+            sakura.style.left = Math.random() * 100 + "vw";
+            sakura.style.animationDuration = (3 + Math.random() * 3) + "s";
+            document.body.appendChild(sakura);
+        }
+    </script>
+
+    <!-- Gifs on sides -->
+    <img src="cat10.gif" class="side-gif left-gif">
+    <img src="birthday.gif" class="side-gif right-gif">
+    <img src="flower.gif" class="side-gif flower-gif">
+    <img src="party.gif" class="side-gif party-gif">
+
+    <!-- Autoplay audio -->
+    <audio autoplay loop>
+        <source src="neko.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Card content -->
+    <div class="card">
+        <h2>For my baby &lt;3</h2>
+        <p>
+            Happy birthday, baby. <br>
+            I hope you're having a good day!! I made this site just for you — it took me a day and a half to make this, and I'm sorry if it's not that good, but I made an effort for it!! 💖<br><br>
+
+            Well, I just wanna say to you that I managed to, you know, greet you on your birthday, and I'm glad with it and Im happy.<br><br>
+
+            I'm not the perfect boyfriend that you have, but I still love you. I know sometimes I can be all rude, but I don’t hate you just because I did that. I love you so much — it's just, I really have severe anger issues and I'm trying to control myself not to get pissed and annoyed, but sometimes I can't do it. I'm sorry if I hurt you back then and yes i do regret it alot but just so you know that i love you so much okay? i know im not perfect and i admit that but ill be the best boyfriend you'll ever had even tho im not perfect hehe. But im still grateful that i have you mari, im really grateful that i have you and im so happy i met you in my life thats why i wanna meet you already. You're the best girlfriend that i had I love you so much!!<br><br>
+
+            And I hope you're gonna have a wonderful birthday, baby. AND NO DYING, okay? No dying or what — BECAUSE YOU'LL LIVE AND WILL ALWAYSSS LIVE  >:(<br><br>
+
+            You better live, and we need to get married and have a family, duh. I'll always make something like this whenever it's your birthday. HEHEHE.<br><br>
+
+            I hope we'll stay together forever, Mari. I love you so much. I really hope we'll stay forever and love each other and someday marry you and live together.<br><br>
+
+            I can't believe that you're still my girlfriend even though there's a lot of things that have happened to us — and we still manage to overcome them little by little. Just for you, thats why im overcoming it hihihi<br><br>
+
+            I'll still try my best to be a good boyfriend, okay? ill make sure you're safe around me :3 <br><br>
+
+            That's all!! I hope you appreciate the site that I made, and I also hope I'm the first to greet you on your birthday which i am HEHE.<br><br>
+
+            ONCE AGAIN — HAPPY BIRTHDAY, BABY!! I LOVE YOU SO MUCHHHH MWAHHH!! -Chris 💖💖💖💖 <span class="emoji">🐸</span>
+        </p>
+        <p class="emoji">💌</p>
+        <a href="page9.html"><button class="button">Previous</button></a>
+    </div>
+</body>
+</html>

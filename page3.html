@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>If you know me well...</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #ffc0cb, #ccffcc);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      margin: 100px auto 0;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      position: relative;
+      z-index: 1;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      min-width: 80px;
+    }
+
+    .correct {
+      background-color: #77dd77 !important;
+    }
+
+    .wrong {
+      background-color: #ff6961 !important;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .nav-button {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #a3e4db;
+      border: none;
+    }
+
+    .disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .sparkle {
+      position: absolute;
+      font-size: 30px;
+      animation: explode 1s ease-out forwards;
+      z-index: 10;
+    }
+
+    @keyframes explode {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(4); opacity: 0; }
+    }
+
+    .sakura {
+      position: fixed;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(120vh);
+        opacity: 0;
+      }
+    }
+
+    img {
+      width: 150px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>If you know me well then...</h2>
+    <p>What do I listen to? HEHEHE</p>
+
+    <div class="buttons">
+      <button class="button" onclick="checkAnswer(this, 'A')">A. Indie</button>
+      <button class="button" onclick="checkAnswer(this, 'B')">B. Rap</button>
+      <button class="button" onclick="checkAnswer(this, 'C')">C. Metal</button>
+      <button class="button" onclick="checkAnswer(this, 'D')">D. Rock</button>
+    </div>
+
+    <div class="nav-buttons">
+      <a href="page2.html"><button id="prevBtn" class="nav-button disabled">Previous</button></a>
+      <a href="page4.html"><button id="nextBtn" class="nav-button disabled">Next</button></a>
+    </div>
+
+    <img src="cat3.gif" alt="Cute Cat GIF" />
+
+  </div>
+
+  <!-- Audio Elements -->
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
+
+  <script>
+    const correctAnswer = 'C'; // Metal
+    let answeredCorrectly = false;
+
+    function checkAnswer(button, selected) {
+      const allButtons = document.querySelectorAll('.button');
+      allButtons.forEach(btn => {
+        btn.classList.remove('correct', 'wrong');
+        btn.innerHTML = btn.innerHTML.replace('✅', '').replace('❌', '').trim();
+      });
+
+      if (selected === correctAnswer) {
+        button.classList.add('correct');
+        if (!answeredCorrectly) {
+          sparkleExplosion(button);
+          document.getElementById("correctSound").play();
+          answeredCorrectly = true;
+          document.getElementById("nextBtn").classList.remove("disabled");
+          document.getElementById("prevBtn").classList.remove("disabled");
+        }
+        button.innerHTML += ' ✅';
+      } else {
+        button.classList.add('wrong');
+        document.getElementById("wrongSound").play();
+        button.innerHTML += ' ❌';
+      }
+    }
+
+    function sparkleExplosion(button) {
+      const sparkle = document.createElement("div");
+      sparkle.className = "sparkle";
+      sparkle.textContent = "✨";
+      const rect = button.getBoundingClientRect();
+      sparkle.style.left = rect.left + rect.width / 2 + "px";
+      sparkle.style.top = rect.top + "px";
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1000);
+    }
+
+    // Sakura rain emoji
+    function createSakura() {
+      const sakura = document.createElement('div');
+      sakura.classList.add('sakura');
+      sakura.textContent = '🌸';
+      sakura.style.left = Math.random() * 100 + 'vw';
+      sakura.style.animationDuration = (3 + Math.random() * 5) + 's';
+      document.body.appendChild(sakura);
+      setTimeout(() => sakura.remove(), 8000);
+    }
+    setInterval(createSakura, 300);
+  </script>
+
+</body>
+</html>

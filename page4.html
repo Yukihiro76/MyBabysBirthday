@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hmm you guessed it then what color do I like?</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #ffc0cb, #ccffcc);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .option-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      background-color: #f0f0f0;
+      transition: all 0.3s ease;
+    }
+    .option-button.correct {
+      background-color: #a6f3a6;
+    }
+    .option-button.wrong {
+      background-color: #ffb3b3;
+    }
+    .option-button.correct::after {
+      content: ' ✅';
+    }
+    .option-button.wrong::after {
+      content: ' ❌';
+    }
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .prev-button {
+      background-color: #a3e4db;
+    }
+    .next-button {
+      background-color: #77dd77;
+    }
+    .sakura {
+      position: fixed;
+      top: -50px;
+      font-size: 25px;
+      animation: fall linear infinite;
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Hmm you guessed it then what color do I like?</h2>
+    <p>Page 4 of 10 🐸</p>
+    <img src="cat4.gif" alt="Cute Cat" style="width: 200px; margin: 20px auto;">
+    <div class="options">
+      <button class="option-button" onclick="checkAnswer(this, false)">Pink</button>
+      <button class="option-button" onclick="checkAnswer(this, false)">White</button>
+      <button class="option-button" onclick="checkAnswer(this, false)">Blue</button>
+      <button class="option-button" onclick="checkAnswer(this, true)">Black</button>
+    </div>
+    <div class="buttons">
+      <a href="page3.html"><button class="button prev-button" id="prevBtn" disabled>Previous</button></a>
+      <a href="page5.html"><button class="button next-button" id="nextBtn" disabled>Next</button></a>
+    </div>
+  </div>
+
+  <audio id="correctSound" src="correct.mp3"></audio>
+  <audio id="wrongSound" src="wrong.mp3"></audio>
+
+  <script>
+    let answeredCorrectly = false;
+
+    function checkAnswer(btn, isCorrect) {
+      if (answeredCorrectly) return;
+
+      const buttons = document.querySelectorAll('.option-button');
+      buttons.forEach(b => b.classList.remove('correct', 'wrong'));
+
+      if (isCorrect) {
+        btn.classList.add('correct');
+        document.getElementById('correctSound').play();
+        document.getElementById('nextBtn').disabled = false;
+        document.getElementById('prevBtn').disabled = false;
+        answeredCorrectly = true;
+        launchSparkle();
+        sakuraRain();
+      } else {
+        btn.classList.add('wrong');
+        document.getElementById('wrongSound').play();
+      }
+    }
+
+    function launchSparkle() {
+      const sparkle = document.createElement('span');
+      sparkle.textContent = '✨';
+      sparkle.style.position = 'absolute';
+      sparkle.style.fontSize = '40px';
+      sparkle.style.top = '50%';
+      sparkle.style.left = '50%';
+      sparkle.style.transform = 'translate(-50%, -50%)';
+      sparkle.style.animation = 'explode 1s ease-out';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1000);
+    }
+
+    function sakuraRain() {
+      for (let i = 0; i < 30; i++) {
+        const sakura = document.createElement('div');
+        sakura.classList.add('sakura');
+        sakura.textContent = '🌸';
+        sakura.style.left = Math.random() * 100 + 'vw';
+        sakura.style.animationDuration = 2 + Math.random() * 3 + 's';
+        document.body.appendChild(sakura);
+        setTimeout(() => sakura.remove(), 5000);
+      }
+    }
+  </script>
+</body>
+</html>

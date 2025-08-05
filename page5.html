@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>When is my birthday? 🎂</title>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #ffc0cb, #ccffcc);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      position: relative;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .question {
+      margin: 20px 0;
+      font-size: 18px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .quiz-button {
+      flex: 1 1 calc(50% - 10px);
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #f5f5f5;
+    }
+
+    .quiz-button.correct {
+      background-color: #77dd77;
+      color: white;
+    }
+
+    .quiz-button.wrong {
+      background-color: #ff6961;
+      color: white;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .nav-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: not-allowed;
+      background-color: grey;
+      color: white;
+    }
+
+    .nav-button.enabled {
+      cursor: pointer;
+      background-color: #a3e4db;
+    }
+
+    .sakura {
+      position: absolute;
+      top: -50px;
+      font-size: 24px;
+      animation: fall linear infinite;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>When is my birthday? 🎂</h2>
+    <img src="cat5.gif" alt="cute gif" width="200"><br><br>
+    <div class="question">Choose the correct answer:</div>
+    <div class="button-group">
+      <button class="quiz-button" onclick="checkAnswer(this, false)">A. January 24</button>
+      <button class="quiz-button" onclick="checkAnswer(this, false)">B. May 24</button>
+      <button class="quiz-button" onclick="checkAnswer(this, true)">C. February 24</button>
+      <button class="quiz-button" onclick="checkAnswer(this, false)">D. March 24</button>
+    </div>
+    <div class="buttons">
+      <a href="page4.html"><button id="prevBtn" class="nav-button" disabled>Previous</button></a>
+      <a href="page6.html"><button id="nextBtn" class="nav-button" disabled>Next</button></a>
+    </div>
+  </div>
+
+  <script>
+    let answeredCorrectly = false;
+
+    function checkAnswer(btn, isCorrect) {
+      if (answeredCorrectly) return;
+
+      const buttons = document.querySelectorAll(".quiz-button");
+      buttons.forEach(b => b.classList.remove("correct", "wrong"));
+
+      if (isCorrect) {
+        btn.classList.add("correct");
+        answeredCorrectly = true;
+
+        // enable nav buttons
+        document.getElementById("nextBtn").disabled = false;
+        document.getElementById("prevBtn").disabled = false;
+        document.getElementById("nextBtn").classList.add("enabled");
+        document.getElementById("prevBtn").classList.add("enabled");
+        document.getElementById("nextBtn").style.cursor = "pointer";
+        document.getElementById("prevBtn").style.cursor = "pointer";
+
+        // start sakura rain
+        startSakuraRain();
+      } else {
+        btn.classList.add("wrong");
+      }
+    }
+
+    function startSakuraRain() {
+      for (let i = 0; i < 30; i++) {
+        const sakura = document.createElement('div');
+        sakura.classList.add('sakura');
+        sakura.style.left = Math.random() * 100 + 'vw';
+        sakura.style.animationDuration = (3 + Math.random() * 2) + 's';
+        sakura.innerText = '🌸';
+        document.body.appendChild(sakura);
+
+        setTimeout(() => {
+          sakura.remove();
+        }, 5000);
+      }
+    }
+  </script>
+</body>
+</html>

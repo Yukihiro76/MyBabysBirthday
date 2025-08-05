@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cat Dodger Game 🐱🍕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: linear-gradient(to bottom, #ffc0cb, #ccffcc);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    canvas {
+      background: #fff;
+      border: 5px solid #ffb6c1;
+      border-radius: 15px;
+      margin-top: 10px;
+      touch-action: none;
+    }
+    .info {
+      text-align: center;
+      margin-top: 10px;
+    }
+    #gameOverText {
+      font-size: 20px;
+      color: red;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+      display: none;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+    .prev-button {
+      background-color: #a3e4db;
+    }
+    .next-button {
+      background-color: #77dd77;
+    }
+    #retry {
+      display: none;
+      margin-top: 10px;
+      padding: 8px 18px;
+      font-size: 16px;
+      background-color: #ff9999;
+      border: none;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Catch the falling food! 🍣🍕🍟</h2>
+  <canvas id="gameCanvas" width="300" height="400"></canvas>
+  <div class="info">
+    <p>Score: <span id="score">0</span></p>
+    <p id="gameOverText"></p>
+  </div>
+  <button id="retry">Retry</button>
+  <div class="buttons" id="navButtons">
+    <a href="page7.html"><button class="prev-button">Previous</button></a>
+    <a href="page9.html"><button class="next-button">Next</button></a>
+  </div>
+  <audio id="bgMusic" src="neko.mp3" loop></audio>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+    const catImg = new Image();
+    catImg.src = "sillycat.gif";
+
+    const foodEmojis = ["🍣", "🍕", "🍟", "🍜", "🍰"];
+    const scoreDisplay = document.getElementById("score");
+    const retryBtn = document.getElementById("retry");
+    const navButtons = document.getElementById("navButtons");
+    const gameOverText = document.getElementById("gameOverText");
+    const bgMusic = document.getElementById("bgMusic");
+
+    let cat = { x: 120, y: 340, width: 60, height: 60 };
+    let food = { x: Math.random() * 260, y: -30, speed: 2, emoji: getRandomEmoji() };
+    let score = 0;
+    let gameOver = false;
+    let leftPressed = false;
+    let rightPressed = false;
+
+    function getRandomEmoji() {
+      return foodEmojis[Math.floor(Math.random() * foodEmojis.length)];
+    }
+
+    function drawCat() {
+      ctx.drawImage(catImg, cat.x, cat.y, cat.width, cat.height);
+    }
+
+    function drawFood() {
+      ctx.font = "30px serif";
+      ctx.fillText(food.emoji, food.x, food.y);
+    }
+
+    function resetFood() {
+      food.x = Math.random() * 260;
+      food.y = -30;
+      food.emoji = getRandomEmoji();
+    }
+
+    function draw() {
+      if (gameOver) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      drawCat();
+      drawFood();
+      food.y += food.speed;
+
+      // PC keyboard movement
+      if (leftPressed) cat.x -= 5;
+      if (rightPressed) cat.x += 5;
+      if (cat.x < 0) cat.x = 0;
+      if (cat.x > canvas.width - cat.width) cat.x = canvas.width - cat.width;
+
+      // Collision check
+      if (
+        food.y + 30 >= cat.y &&
+        food.x >= cat.x &&
+        food.x <= cat.x + cat.width
+      ) {
+        score++;
+        scoreDisplay.textContent = score;
+        resetFood();
+      } else if (food.y > canvas.height) {
+        endGame();
+      }
+
+      if (score >= 15) {
+        navButtons.style.display = "flex";
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    function endGame() {
+      gameOver = true;
+      gameOverText.textContent = "NOO YOU BEATED IT AGAIN 😭";
+      retryBtn.style.display = "block";
+    }
+
+    retryBtn.addEventListener("click", () => {
+      score = 0;
+      gameOver = false;
+      food.y = -30;
+      scoreDisplay.textContent = score;
+      gameOverText.textContent = "";
+      retryBtn.style.display = "none";
+      navButtons.style.display = "none";
+      draw();
+    });
+
+    // Mobile swipe
+    let startX = 0;
+    canvas.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+    });
+
+    canvas.addEventListener("touchmove", (e) => {
+      let deltaX = e.touches[0].clientX - startX;
+      cat.x += deltaX;
+      if (cat.x < 0) cat.x = 0;
+      if (cat.x > canvas.width - cat.width) cat.x = canvas.width - cat.width;
+      startX = e.touches[0].clientX;
+    });
+
+    // PC arrow keys
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") leftPressed = true;
+      if (e.key === "ArrowRight") rightPressed = true;
+    });
+
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "ArrowLeft") leftPressed = false;
+      if (e.key === "ArrowRight") rightPressed = false;
+    });
+
+    // Start music after interaction
+    document.body.addEventListener("click", () => {
+      bgMusic.play().catch(() => {});
+    });
+
+    draw();
+  </script>
+</body>
+</html>
